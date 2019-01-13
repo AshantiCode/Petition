@@ -1,0 +1,48 @@
+<head>
+    <title> {{ pageTitle }} </title>
+</head>
+
+
+<div class="wrapper">
+    <h1 class=''> Welcome To This Petition About Whatever I Think Of</h1>
+
+    <h2>This is {{ name }}</h2>
+
+    <p class='description'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit laborum, ab omnis assumenda
+        ipsum excepturi
+        suscipit,
+        minus saepe cum deserunt temporibus corrupti voluptas necessitatibus magni nulla natus, dolor voluptates
+        voluptatibus.</p>
+
+
+    <p class='description'>Please enter your first and last name and confirm the petition with your signature!</p>
+
+    {{#if error}}
+    <div class="error"> Ooops 🙀 ! It seems like you did not enter your first and last name. Please let us know who you
+        are. 🦄
+    </div>
+    {{/if}}
+
+
+
+
+    <form method=post>
+        <br><br>
+        <label for="firstName">First Name</label>
+        <input type="text" name='userFirstName' id='firstName'>
+
+        <label for="lastName">Last Name</label>
+        <input type="text" name='userLastName' id='lastName'>
+        <br><br>
+        <label for="sig">Your Signature here</label>
+        <input type="hidden" name='sig' id='sig-field' value=''>
+
+        <canvas id='canvas' width='500px' height='150px'></canvas>
+        <button id='sig-btn'>Confirm Signature</button>
+        <button id='submit-btn'>Submit Petition</button>
+
+        {{!-- <fieldset>
+            <input type="submit" class='submit-btn' value='Submit'>
+        </fieldset> --}}
+    </form>
+</div>
