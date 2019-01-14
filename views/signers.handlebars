@@ -4,10 +4,17 @@
 
 
 
-<h1>See who else is against Rain and want to have Sun only!</h1>
+<h1> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is against Rain and want to have Sun
+    only!</h1>
 
-{{#each signers}}
+
 <ul>
-    <li> {{ userFirstName }} {{ userLastName}}</li>
+    {{#each signers}}
+    <li> {{ first }} {{ last }}</li>
+    {{/each}}
+
 </ul>
-{{/each}}
+
+<form action="" method="post">
+    <input type="submit" name="reset-cookies" value="Reset Cookies" />
+</form>
