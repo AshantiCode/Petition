@@ -75,9 +75,9 @@ app.post('/home', (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    console.log('UserID:', userID);
+    // console.log('UserID:', userID);
     console.log('req.session:', req.session);
-    console.log('res.session.id:', req.session.id);
+    // console.log('res.session.id:', req.session.id);
     if (userID) {
         db.getSignature(userID).then(data => {
             console.log('Data: ', data);
@@ -93,14 +93,6 @@ app.get('/thankyou', (req, res) => {
     }
 });
 
-//TODO###################:
-// app.get('/cookies', function(req, res) {
-//     // Cookies that have not been signed
-//     console.log('Cookies: ', req.cookies);
-//     // Cookies that have been signed
-//     console.log('Signed Cookies: ', req.signedCookies);
-// });
-// //TODO###################:
 app.get('/signers', (req, res) => {
     db.getSigners()
         .then(data => {
@@ -117,7 +109,7 @@ app.get('/signers', (req, res) => {
 
 app.post('/signers', (req, res) => {
     req.session = null;
-    res.redirect('/home');
+    res.redirect('/');
 });
 
 // Server
