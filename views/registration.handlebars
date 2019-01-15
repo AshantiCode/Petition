@@ -1,0 +1,31 @@
+<head>
+    <title> {{ pageTitle }} </title>
+</head>
+
+<div class="wrapper">
+    <h1>Registration</h1>
+    <h3>Become part of the sundance</h3>
+
+
+    <div class="registration-form">
+
+        <form method='post' action='/registration'>
+
+            <label for="firstName">First Name</label>
+            <input type="text" name='first' id='firstName'>
+            <br><br>
+            <label for="lastName">Last Name</label>
+            <input type="text" name='last' id='lastName'>
+            <br><br>
+            <label for="email">Email </label>
+            <input type="email" name='email' id='email'>
+            <br><br>
+            <label for="password">Password (4 characters min.)</label>
+            <input type="password" name='password' id='pass' minlength="4" required>
+            <button id='register-btn'>Sign Up!</button>
+
+        </form>
+
+    </div>
+
+</div>

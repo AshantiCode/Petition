@@ -6,8 +6,8 @@ const express = require('express'),
     cookieParser = require('cookie-parser'),
     db = require('./db'),
     cookieSession = require('cookie-session'),
-    log = console.log;
-let userID;
+    bcrypt = require('./bcrypt');
+log = console.log;
 
 //tell express which template to use (handlebars)
 var hb = require('express-handlebars');
@@ -27,8 +27,8 @@ app.use(express.static('./public'));
 
 // Routes Handler
 app.get('/', (req, res) => {
-    if (userID) {
-        res.redirect('/signers');
+    if (req.session.sigId) {
+        res.redirect('/thankyou');
     } else {
         res.render('home', {
             pageTitle: 'Homepage',
@@ -38,8 +38,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-    if (userID) {
-        res.redirect('/signers');
+    if (req.session.sigId) {
+        res.redirect('/thankyou');
     } else {
         res.render('home', {
             pageTitle: 'Homepage',
@@ -49,19 +49,15 @@ app.get('/home', (req, res) => {
 });
 
 app.post('/home', (req, res) => {
-    const firstName = req.body.first;
-    const lastName = req.body.last;
+    const firstName = req.session.first;
+    const lastName = req.session.last;
     const signature = req.body.sig;
-
-    db.addSignature(firstName, lastName, signature)
+    const userId = req.session.userId;
+    db.addSignature(firstName, lastName, signature, userId)
         .then(data => {
             console.log('Signer has been saved to DB');
-            console.log('Signer ID: ', data);
-            req.session = {
-                id: data.rows[0].id,
-                name: `${data.rows[0].first} ${data.rows[0].last}`
-            };
-            userID = req.session.id;
+            req.session.sigId = data.rows[0].id;
+
             console.log('req.session name: ', req.session.name);
             res.redirect('/thankyou');
         })
@@ -75,11 +71,10 @@ app.post('/home', (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    // console.log('UserID:', userID);
     console.log('req.session:', req.session);
     // console.log('res.session.id:', req.session.id);
-    if (userID) {
-        db.getSignature(userID).then(data => {
+    if (req.session.sigId) {
+        db.getSignature(req.session.sigId).then(data => {
             console.log('Data: ', data);
             res.render('thankyou', {
                 pageTitle: 'Thank You!',
@@ -107,9 +102,58 @@ app.get('/signers', (req, res) => {
         .catch(err => console.log('Error in signers:', err));
 });
 
-app.post('/signers', (req, res) => {
+app.get('/logout', (req, res) => {
     req.session = null;
-    res.redirect('/');
+    res.render('logout', {
+        layout: 'main'
+    });
+});
+
+app.get('/registration', (req, res) => {
+    res.render('registration', {
+        pageTitle: 'Registration',
+        layout: 'main'
+    });
+});
+
+//FIXME:
+app.post('/registration', (req, res) => {
+    console.log('req.body:', req.body);
+    bcrypt
+        .hash(req.body.password)
+        .then(hashedPass => {
+            return db.registerUser(
+                req.body.first,
+                req.body.last,
+                req.body.email,
+                hashedPass
+            );
+        })
+        .then(data => {
+            console.log('Data: ', data);
+            (req.session.userId = data.rows[0].id),
+            (req.session.first = data.rows[0].first),
+            (req.session.last = data.rows[0].last),
+            console.log('User has been registered!');
+            res.redirect('/home');
+        })
+        .catch(err => {
+            console.log(err);
+            res.render(home, {
+                error: true,
+                layout: 'main'
+            });
+        });
+});
+
+// TODO: Login Routes
+
+app.get('/login', (req, res) => {
+    res.render(login), {};
+});
+
+app.post('/login', (req, res) => {
+    res.render(), {};
 });
 
 // Server

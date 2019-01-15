@@ -4,14 +4,15 @@
 
 
 <div class="wrapper">
-    <h1 class=''> Welcome To This Petition About Whatever I Think Of</h1>
+    <h1>Welcome</h1>
+
+    <h1 class=''>This is a Petition About Whatever </h1>
 
     <h2>This is {{ name }}</h2>
 
     <p class='description'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit laborum, ab omnis assumenda
         ipsum excepturi
-        suscipit,
-        minus saepe cum deserunt temporibus corrupti voluptas necessitatibus magni nulla natus, dolor voluptates
+        voluptates
         voluptatibus.</p>
 
 
@@ -24,15 +25,9 @@
     {{/if}}
 
 
-
-
     <form method='post' action='/home'>
         <br><br>
-        <label for="firstName">First Name</label>
-        <input type="text" name='first' id='firstName'>
 
-        <label for="lastName">Last Name</label>
-        <input type="text" name='last' id='lastName'>
         <br><br>
         <label for="sig">Your Signature here</label>
         <input type="hidden" name='sig' id='sig-field' value=''>
@@ -42,8 +37,15 @@
         <br><br>
 
 
-        {{!-- <fieldset>
-            <input type="submit" class='submit-btn' value='Submit'>
-        </fieldset> --}}
     </form>
 </div>
+
+
+{{!-- <form>
+    <fieldset>
+        <legend>Personalia:</legend>
+        Name: <input type="text"><br>
+        Email: <input type="text"><br>
+        Date of birth: <input type="text">
+    </fieldset>
+</form> --}}
