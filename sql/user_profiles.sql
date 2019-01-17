@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user_profiles
+DROP TABLE IF EXISTS user_profiles;
 
 CREATE TABLE user_profiles
 (
@@ -6,7 +6,7 @@ CREATE TABLE user_profiles
     age INT,
     city VARCHAR(100),
     url VARCHAR(400),
-    user_id INT REFERENCES user(id) NOT NULL,
+    user_id INT REFERENCES users(id) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

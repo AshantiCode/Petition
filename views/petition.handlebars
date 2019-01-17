@@ -3,12 +3,12 @@
 </head>
 
 
-<p class="wrapper">
+<div class="wrapper">
     <h1>Welcome</h1>
 
     <h1 class=''>This is a Petition About Whatever </h1>
 
-    <h2>This is {{ name }}</h2>
+
 
     <p class='description'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit laborum, ab omnis assumenda
         ipsum excepturi
@@ -17,37 +17,24 @@
 
 
     <p class='description'> Please confirm the petition with your signature!</p>
+    <br><br>
 
     {{#if error}}
-    <p class="error"> Ooops 🙀 ! Please submit with your signature! 🦄
+    <p class="error"> 🤨 Ooops ! Something went wrong 🤨
     </p>
     {{/if}}
 
-
-
-
     <form method='post' action='/petition'>
-        <br><br>
 
-        <br><br>
-        <label for="sig">Your Signature here</label>
+        <label for="sig">Your Signature here</label><br>
         <input type="hidden" name='sig' id='sig-field' value=''>
 
         <canvas id='canvas' width='500px' height='150px'></canvas>
         <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        <br><br>
         <button id='submit-btn'>Submit Petition</button>
         <br><br>
 
 
     </form>
-    </div>
-
-
-    {{!-- <form>
-        <fieldset>
-            <legend>Personalia:</legend>
-            Name: <input type="text"><br>
-            Email: <input type="text"><br>
-            Date of birth: <input type="text">
-        </fieldset>
-    </form> --}}
+</div>

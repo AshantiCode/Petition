@@ -2,23 +2,23 @@
     <title> {{ pageTitle }} </title>
 </head>
 
+<div class="wrapper">
+
+    <h1> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is against Rain and want to have
+        Sun
+        only!</h1>
 
 
-<h1> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is against Rain and want to have Sun
-    only!</h1>
+    <ul>
+        {{#each signers}}
+        <li> {{ first }} {{ last }}</li>
+        {{/each}}
+
+    </ul>
 
 
-<ul>
-    {{#each signers}}
-    <li> {{ first }} {{ last }}</li>
-    {{/each}}
-
-</ul>
+    <h3>Go to <a href="/logout">Log Out</a> to log out from this page!</h3>
 
 
-<h3>Go to <a href="/logout">Log Out</a> to log out from this page!</h3>
 
-
-{{!-- <form action="/logout" method="get">
-    <input type="submit" name="reset-cookies" value="Reset Cookies" />
-</form> --}}
+</div>

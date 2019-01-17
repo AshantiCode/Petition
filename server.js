@@ -83,22 +83,42 @@ app.post('/registration', (req, res) => {
                 );
             })
             .then(data => {
-                console.log('User added to DB users');
-                console.log('Data: ', data);
+                console.log('User added to database users');
                 (req.session.userId = data.rows[0].id),
                 (req.session.first = data.rows[0].first),
                 (req.session.last = data.rows[0].last),
                 console.log('Cookies have been set!');
-                res.redirect('/petition');
+                res.redirect('/profile');
             })
             .catch(err => {
                 console.log(err);
-                res.render('petition', {
+                res.render('registration', {
                     error: true,
                     layout: 'main'
                 });
             });
     }
+});
+
+app.get('/profile', (req, res) => {
+    res.render('profile', {
+        layout: 'main',
+        pageTitle: 'Profile',
+        firstName: req.session.first
+    });
+});
+
+app.post('/profile', (req, res) => {
+    console.log('req.Body of Profile: ', req.body);
+    db.addProfile(
+        req.body.age,
+        req.body.city,
+        req.body.url,
+        req.session.userId
+    ).then(data => {
+        console.log('data aus addProfile:', data);
+        res.redirect('/petition');
+    });
 });
 
 app.get('/login', (req, res) => {
@@ -107,15 +127,13 @@ app.get('/login', (req, res) => {
     });
 });
 
-//FIXME:
 app.post('/login', (req, res) => {
     console.log('req.body: ', req.body);
     let userId = '';
     let first = '';
     let last = '';
-    // COMPARE EMAIL IF EXIST???
+
     db.getUserByEmail(req.body.email).then(data => {
-        log('Data in GetuserbyEmail:', data);
         req.session.userId = data.rows[0].id;
         req.session.first = data.rows[0].first;
         req.session.last = data.rows[0].last;
@@ -144,13 +162,13 @@ app.post('/login', (req, res) => {
                 } // closes bool
             )
             .catch(err => {
-                console.log('Error in GetuserbyEmail:', err);
+                console.log('Error in GetUserbyEmail:', err);
             });
     }); //closes getUserByEMail
 });
 
 app.get('/petition', (req, res) => {
-    log('req.session:', req.session);
+    log('req.session in petition Get:', req.session);
     if (req.session.sigId) {
         res.redirect('/thankyou');
     } else {
@@ -193,7 +211,7 @@ app.get('/thankyou', (req, res) => {
                 pageTitle: 'Thank You!',
                 layout: 'main',
                 signatureImg: data.rows[0].sig,
-                name: req.session.name
+                firstName: req.session.first
             });
         });
     } else {

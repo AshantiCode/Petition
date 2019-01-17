@@ -1,19 +1,16 @@
 <div class="wrapper">
     <h1>Registration</h1>
     <h3>Become part of the sundance</h3>
-
+    <br><br>
 
     {{#if error}}
-    <p class="error"> Ooops 🙀! Make sure you fill out every field! 🦄
+    <p class="error"> 🤨 Ooops ! Something went wrong 🤨!
     </p>
     {{/if}}
 
-    {{#if err}}
-    {{errorMessage}}
-    {{/if}}
 
 
-    <div class="registration-form">
+    <div class="form-wrapper">
 
         <form method='post' action='/registration'>
 

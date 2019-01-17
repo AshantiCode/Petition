@@ -26,7 +26,7 @@ img {
 
 .wrapper {
   text-align: center;
-  width: 900px;
+  width: 500px;
   margin: 0 auto;
 }
 
@@ -37,15 +37,17 @@ p {
 #canvas {
   /* margin-top: 30px; */
   border: 1px dotted black;
+  background-color: #f7f4f4;
 }
 
 .error {
   color: red;
 }
 
-.registration-form {
-  margin-top: 3rem;
-  text-align: center;
+.form-wrapper {
+  text-align: right;
+  margin: 1.1rem;
+  font-size: 1, 25rem;
 }
 
 input {
