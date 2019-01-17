@@ -32,10 +32,15 @@ module.exports.alreadySigned = id => {
     );
 };
 
-//JOIN to see Signers
+//Get Signers
 module.exports.getSigners = () => {
     return db.query(
-        `SELECT first, last FROM signatures LEFT JOIN users ON signatures.user_id = users.id`
+        `SELECT 
+        users.first AS first, users.last AS last, user_profiles.age AS age, user_profiles.city as city, user_profiles.url AS url FROM signatures 
+        LEFT JOIN users 
+        ON signatures.user_id = users.id
+        LEFT JOIN user_profiles
+        ON signatures.user_id = user_profiles.user_id`
     );
 };
 
