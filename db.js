@@ -15,20 +15,22 @@ module.exports.getUserByEmail = email => {
 
 module.exports.addSignature = (sig, user_id) => {
     return db.query(
-        `INSERT INTO signatures  sig, user_id) VALUES ($1, $2) RETURNING id`,
+        `INSERT INTO signatures (sig, user_id) VALUES ($1, $2) RETURNING id`,
         [sig, user_id]
     );
 };
 
 // USER ALREADY SIGNED
 module.exports.alreadySigned = id => {
-    return db.query(`
-        SELECT id FROM signatures WHERE user_id = ${id}
-    `);
+    return db.query(
+        `
+        SELECT id FROM signatures WHERE user_id = $1`,
+        [id]
+    );
 };
 
 module.exports.getSigners = () => {
-    return db.query(`SELECT id,first, last  FROM signatures`);
+    return db.query(`SELECT id  FROM signatures`);
 };
 
 module.exports.getSignature = function(id) {

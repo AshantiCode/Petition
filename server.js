@@ -115,43 +115,42 @@ app.post('/login', (req, res) => {
     let last = '';
     // COMPARE EMAIL IF EXIST???
     db.getUserByEmail(req.body.email).then(data => {
-        userId = data.row[0].id;
-        first = data.row[0].first;
-        last = data.row[0].last;
-        return comparePassword(req.body.password, data.row[0].password).then(
-            bool => {
-                if (bool) {
-                    alreadySigned(userId).then(data => {
-                        if (data.rows.length >= 1) {
-                            (req.session.userId = data.rows[0].id),
-                            (req.session.first = data.rows[0].first),
-                            (req.session.last = data.rows[0].last)(
-                                (req.session.sigId = data.rows[0].id)
-                            );
-                            res.redirect('/thankyou');
-                        } else {
-                            (req.session.userId = data.rows[0].id)(
-                                (req.session.first = data.rows[0].first)
-                            )((req.session.last = data.rows[0].last));
-                            res.redirect('/petition');
-                        }
-                    }); //closes alreadySigned
-                } else {
-                    res.render('/login', {
-                        layout: 'main',
-                        error: true
-                    });
-                }
-            } // closes bool
-        ); //closes comparePassword
-    }); //closes getUserByEMail
+        log('Data in GetuserbyEmail:', data);
+        req.session.userId = data.rows[0].id;
+        req.session.first = data.rows[0].first;
+        req.session.last = data.rows[0].last;
+        return bcrypt
+            .comparePassword(req.body.password, data.rows[0].password)
+            .then(
+                bool => {
+                    if (bool) {
+                        db.alreadySigned(req.session.userId).then(data => {
+                            console.log('Data from alreadySigned: ', data);
+                            if (data.rows.length >= 1) {
+                                req.session.sigId = data.rows[0].id;
 
-    res.render('petition', {
-        layout: 'main'
-    });
+                                res.redirect('/thankyou');
+                            } else {
+                                res.redirect('/petition');
+                            }
+                        }); //closes alreadySigned
+                    } else {
+                        req.session = null;
+                        res.render('/login', {
+                            layout: 'main',
+                            error: true
+                        });
+                    }
+                } // closes bool
+            )
+            .catch(err => {
+                console.log('Error in GetuserbyEmail:', err);
+            });
+    }); //closes getUserByEMail
 });
 
 app.get('/petition', (req, res) => {
+    log('req.session:', req.session);
     if (req.session.sigId) {
         res.redirect('/thankyou');
     } else {
@@ -163,6 +162,7 @@ app.get('/petition', (req, res) => {
 });
 
 app.post('/petition', (req, res) => {
+    log('req.session in Petition POST:', req.session);
     const firstName = req.session.first;
     const lastName = req.session.last;
     const signature = req.body.sig;
@@ -184,7 +184,7 @@ app.post('/petition', (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    console.log('req.session:', req.session);
+    console.log('req.sessionin Thank Your:', req.session);
     // console.log('res.session.id:', req.session.id);
     if (req.session.sigId) {
         db.getSignature(req.session.sigId).then(data => {
@@ -223,4 +223,4 @@ app.get('/logout', (req, res) => {
 });
 
 // Server
-app.listen(3000, () => ca.rainbow('Yo, I am listening on 3000!'));
+app.listen(8080, () => ca.rainbow('Yo, I am listening on 8080!'));
