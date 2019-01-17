@@ -8,12 +8,23 @@ module.exports.registerUser = (first, last, email, hashedPass) => {
         [first, last, email, hashedPass]
     );
 };
+//FIXME:
+module.exports.getUserByEmail = email => {
+    return db.query(` SELECT * FROM users WHERE email = $1`, [email]);
+};
 
-module.exports.addSignature = (first, last, sig, user_id) => {
+module.exports.addSignature = (sig, user_id) => {
     return db.query(
-        `INSERT INTO signatures (first,last, sig,user_id) VALUES ($1, $2, $3, $4) RETURNING id`,
-        [first, last, sig, user_id]
+        `INSERT INTO signatures  sig, user_id) VALUES ($1, $2) RETURNING id`,
+        [sig, user_id]
     );
+};
+
+// USER ALREADY SIGNED
+module.exports.alreadySigned = id => {
+    return db.query(`
+        SELECT id FROM signatures WHERE user_id = ${id}
+    `);
 };
 
 module.exports.getSigners = () => {

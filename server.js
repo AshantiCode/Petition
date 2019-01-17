@@ -1,69 +1,182 @@
-const express = require('express'),
-    app = express(),
-    ca = require('chalk-animation'),
-    fs = require('fs'),
-    bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
-    db = require('./db'),
-    cookieSession = require('cookie-session'),
-    bcrypt = require('./bcrypt');
-log = console.log;
+const express = require('express');
+const app = express();
+const ca = require('chalk-animation');
+const fs = require('fs');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const db = require('./db');
+const cookieSession = require('cookie-session');
+const bcrypt = require('./bcrypt');
+const csurf = require('csurf');
+const log = console.log;
 
 //tell express which template to use (handlebars)
 var hb = require('express-handlebars');
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 
-// Middleware
+// Middleware  #########################################################
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     cookieSession({
         secret: `I'm always angry.`,
         maxAge: 1000 * 60 * 60 * 24 * 14
     })
 );
-app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static('./public'));
 
-// Routes Handler
+// user that are logged out try to type other url then registration or login are redirected to registration
+app.use(function(req, res, next) {
+    if (
+        !req.session.userId &&
+        req.url != '/registration' &&
+        req.url != '/login'
+    ) {
+        res.redirect('/registration');
+    } else {
+        next();
+    }
+});
+app.use(csurf());
+
+app.use(function(req, res, next) {
+    res.locals.csrfToken = req.csrfToken();
+    res.setHeader('X-Frame-Options', 'DENY');
+    next();
+});
+
+// Routes Handler ###########################################################
+
 app.get('/', (req, res) => {
+    res.redirect('/registration');
+});
+
+app.get('/registration', (req, res) => {
+    res.render('registration', {
+        pageTitle: 'Registration',
+        layout: 'main'
+    });
+});
+
+app.post('/registration', (req, res) => {
+    if (
+        !req.body.first ||
+        !req.body.last ||
+        !req.body.email ||
+        !req.body.password
+    ) {
+        res.render('registration', {
+            layout: 'main',
+            error: true
+        });
+    } else {
+        bcrypt
+            .hash(req.body.password)
+            .then(hashedPass => {
+                return db.registerUser(
+                    req.body.first,
+                    req.body.last,
+                    req.body.email,
+                    hashedPass
+                );
+            })
+            .then(data => {
+                console.log('User added to DB users');
+                console.log('Data: ', data);
+                (req.session.userId = data.rows[0].id),
+                (req.session.first = data.rows[0].first),
+                (req.session.last = data.rows[0].last),
+                console.log('Cookies have been set!');
+                res.redirect('/petition');
+            })
+            .catch(err => {
+                console.log(err);
+                res.render('petition', {
+                    error: true,
+                    layout: 'main'
+                });
+            });
+    }
+});
+
+app.get('/login', (req, res) => {
+    res.render('login', {
+        layout: 'main'
+    });
+});
+
+//FIXME:
+app.post('/login', (req, res) => {
+    console.log('req.body: ', req.body);
+    let userId = '';
+    let first = '';
+    let last = '';
+    // COMPARE EMAIL IF EXIST???
+    db.getUserByEmail(req.body.email).then(data => {
+        userId = data.row[0].id;
+        first = data.row[0].first;
+        last = data.row[0].last;
+        return comparePassword(req.body.password, data.row[0].password).then(
+            bool => {
+                if (bool) {
+                    alreadySigned(userId).then(data => {
+                        if (data.rows.length >= 1) {
+                            (req.session.userId = data.rows[0].id),
+                            (req.session.first = data.rows[0].first),
+                            (req.session.last = data.rows[0].last)(
+                                (req.session.sigId = data.rows[0].id)
+                            );
+                            res.redirect('/thankyou');
+                        } else {
+                            (req.session.userId = data.rows[0].id)(
+                                (req.session.first = data.rows[0].first)
+                            )((req.session.last = data.rows[0].last));
+                            res.redirect('/petition');
+                        }
+                    }); //closes alreadySigned
+                } else {
+                    res.render('/login', {
+                        layout: 'main',
+                        error: true
+                    });
+                }
+            } // closes bool
+        ); //closes comparePassword
+    }); //closes getUserByEMail
+
+    res.render('petition', {
+        layout: 'main'
+    });
+});
+
+app.get('/petition', (req, res) => {
     if (req.session.sigId) {
         res.redirect('/thankyou');
     } else {
-        res.render('home', {
+        res.render('petition', {
             pageTitle: 'Homepage',
             layout: 'main'
         });
     }
 });
 
-app.get('/home', (req, res) => {
-    if (req.session.sigId) {
-        res.redirect('/thankyou');
-    } else {
-        res.render('home', {
-            pageTitle: 'Homepage',
-            layout: 'main'
-        });
-    }
-});
-
-app.post('/home', (req, res) => {
+app.post('/petition', (req, res) => {
     const firstName = req.session.first;
     const lastName = req.session.last;
     const signature = req.body.sig;
     const userId = req.session.userId;
-    db.addSignature(firstName, lastName, signature, userId)
+    db.addSignature(req.body.sig, req.session.userId)
         .then(data => {
-            console.log('Signer has been saved to DB');
+            console.log('added signature to DB signature');
             req.session.sigId = data.rows[0].id;
-
-            console.log('req.session name: ', req.session.name);
+            console.log('Signature in Cookie!');
             res.redirect('/thankyou');
         })
         .catch(function(err) {
             console.log('Error in addSign:', err);
-            res.render('home', {
+            res.render('petition', {
                 error: true,
                 layout: 'main'
             });
@@ -84,7 +197,7 @@ app.get('/thankyou', (req, res) => {
             });
         });
     } else {
-        res.redirect('/home');
+        res.redirect('/petition');
     }
 });
 
@@ -107,53 +220,6 @@ app.get('/logout', (req, res) => {
     res.render('logout', {
         layout: 'main'
     });
-});
-
-app.get('/registration', (req, res) => {
-    res.render('registration', {
-        pageTitle: 'Registration',
-        layout: 'main'
-    });
-});
-
-//FIXME:
-app.post('/registration', (req, res) => {
-    console.log('req.body:', req.body);
-    bcrypt
-        .hash(req.body.password)
-        .then(hashedPass => {
-            return db.registerUser(
-                req.body.first,
-                req.body.last,
-                req.body.email,
-                hashedPass
-            );
-        })
-        .then(data => {
-            console.log('Data: ', data);
-            (req.session.userId = data.rows[0].id),
-            (req.session.first = data.rows[0].first),
-            (req.session.last = data.rows[0].last),
-            console.log('User has been registered!');
-            res.redirect('/home');
-        })
-        .catch(err => {
-            console.log(err);
-            res.render(home, {
-                error: true,
-                layout: 'main'
-            });
-        });
-});
-
-// TODO: Login Routes
-
-app.get('/login', (req, res) => {
-    res.render(login), {};
-});
-
-app.post('/login', (req, res) => {
-    res.render(), {};
 });
 
 // Server

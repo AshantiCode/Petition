@@ -11,4 +11,14 @@ module.exports.hash = password => {
     });
 };
 
-module.exports.compare = compare;
+module.exports.comparePassword = (password, hashedPass) => {
+    return new Promise((resolve, reject) => {
+        compare(password, hashedPass, (err, doesMatch) => {
+            if (err) {
+                reject(err.message);
+            } else {
+                resolve(doesMatch);
+            }
+        });
+    });
+};
