@@ -110,15 +110,20 @@ app.get('/profile', (req, res) => {
 
 app.post('/profile', (req, res) => {
     console.log('req.Body of Profile: ', req.body);
-    db.addProfile(
-        req.body.age,
-        req.body.city,
-        req.body.url,
-        req.session.userId
-    ).then(data => {
-        console.log('data aus addProfile:', data);
-        res.redirect('/petition');
-    });
+    let url = req.body.url;
+    if (
+        !url.startsWith('http://') &&
+        !url.startsWith('https://') &&
+        !url.startsWith('//')
+    ) {
+        url = 'http://' + url;
+    }
+    db.addProfile(req.body.age, req.body.city, url, req.session.userId).then(
+        data => {
+            console.log('data aus addProfile:', data);
+            res.redirect('/petition');
+        }
+    );
 });
 
 app.get('/login', (req, res) => {
@@ -129,9 +134,9 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     console.log('req.body: ', req.body);
-    let userId = '';
-    let first = '';
-    let last = '';
+    // let userId = '';
+    // let first = '';
+    // let last = '';
 
     db.getUserByEmail(req.body.email).then(data => {
         req.session.userId = data.rows[0].id;
@@ -223,10 +228,23 @@ app.get('/signers', (req, res) => {
     db.getSigners()
         .then(data => {
             console.log('signers data rows: ', data.rows);
-            console.log('signers.rows.length: ', data.rows.length);
             res.render('signers', {
                 numOfSigners: data.rows.length - 1,
                 signers: data.rows,
+                layout: 'main'
+            });
+        })
+        .catch(err => console.log('Error in signers:', err));
+});
+
+app.get('/signers/:city', (req, res) => {
+    db.getSignersbyCity(req.params.city)
+        .then(data => {
+            console.log('signers data rows2: ', data.rows);
+            res.render('signers', {
+                numOfSigners: data.rows.length - 1,
+                signers: data.rows,
+                city: req.param.city,
                 layout: 'main'
             });
         })
@@ -241,4 +259,6 @@ app.get('/logout', (req, res) => {
 });
 
 // Server
-app.listen(process.env.PORT || 8080, () => ca.rainbow('Yo, I am listening on 8080!'));
+app.listen(process.env.PORT || 8080, () =>
+    ca.rainbow('Yo, I am listening on 8080!')
+);

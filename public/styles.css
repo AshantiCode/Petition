@@ -30,6 +30,13 @@ img {
   margin: 0 auto;
 }
 
+.wrapper-signers{
+  /* text-align: center; */
+  width: 500px;
+  margin: 0 auto;
+}
+}
+
 p {
   font-size: 1.5rem;
 }
@@ -63,4 +70,22 @@ button {
 
 ul > li {
   list-style: none;
+}
+ul.signers-ul {
+  text-align: center;
+}
+
+li.signers {
+  text-align: left;
+  font-size: 1.5rem;
+  margin-top: 10px;
+}
+
+h1.signers-borderbottom {
+  border-bottom: 2px solid #eee;
+}
+
+h3.signers-logout {
+  margin-top: 5rem;
+  border-top: 2px solid #eee;
 }

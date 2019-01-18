@@ -2,22 +2,35 @@
     <title> {{ pageTitle }} </title>
 </head>
 
-<div class="wrapper">
+<div class="wrapper-signers">
 
-    <h1> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is against Rain and want to have
+    <h1 class="signers-borderbottom"> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is
+        against Rain and want to have
         Sun
         only!</h1>
 
 
-    <ul>
-        {{#each signers}}
-        <li> {{ first }} {{ last }} {{age}} <a href="#" {{city}}> {{ city }}</a></li>
-        {{/each}}
 
+
+    <ul class="signers-ul">
+
+        {{#signers}}
+        <li>
+            {{#if url}}
+            <a href="{{ url }}">{{ first }} {{last}}</a>
+            {{else}}
+            {{ first }} {{ last }} ,
+            {{/if}}
+            {{age}} years,
+            {{#city}}
+            <a href="signers/{{.}}">{{.}} </a>
+            {{/city}}
+        </li>
+        {{/signers}}
     </ul>
 
-
-    <h3>Go to <a href="/logout">Log Out</a> to log out from this page!</h3>
+    <h3 class="signers-logout"><a href="/logout">Log
+            Out</a> out from this page!</h3>
 
 
 

@@ -14,16 +14,16 @@
 
         <form method='post' action='/registration'>
 
-            <label for="firstName">First Name</label>
+            <label for="firstName">First Name</label><br>
             <input type="text" name='first' id='firstName'>
             <br><br>
-            <label for="lastName">Last Name</label>
+            <label for="lastName">Last Name</label><br>
             <input type="text" name='last' id='lastName'>
             <br><br>
-            <label for="email">Email </label>
+            <label for="email">Email </label><br>
             <input type="email" name='email' id='email'>
             <br><br>
-            <label for="password">Password (4 characters min.)</label>
+            <label for="password">Password (4 characters min.)</label><br>
             <input type="password" name='password' id='pass' minlength="4" required>
             <input type="hidden" name="_csrf" value="{{csrfToken}}">
             <br><br>

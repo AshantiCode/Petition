@@ -1,4 +1,4 @@
-const spicedPg = require('spiced-pg');
+let spicedPg = require('spiced-pg');
 
 let db;
 // if(true) then website shoult talk to herokus postgres database
@@ -6,8 +6,8 @@ if (process.env.DATABASE_URL) {
     db = spicedPg(process.env.DATABASE_URL);
 } else {
     //else if we are on 8080
-    dbspicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
     const { dbUser, dbPass } = require('./secrets');
+    db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
 }
 
 //ADD new user to DB
@@ -49,6 +49,18 @@ module.exports.getSigners = () => {
         ON signatures.user_id = users.id
         LEFT JOIN user_profiles
         ON signatures.user_id = user_profiles.user_id`
+    );
+};
+
+module.exports.getSignersbyCity = city => {
+    return db.query(
+        `SELECT 
+        users.first AS first, users.last AS last, user_profiles.age AS age, user_profiles.city as city, user_profiles.url AS url FROM signatures 
+        LEFT JOIN users 
+        ON signatures.user_id = users.id
+        LEFT JOIN user_profiles
+        ON signatures.user_id = user_profiles.user_id WHERE LOWER(city)  = LOWER($1)`,
+        [city]
     );
 };
 
