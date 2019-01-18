@@ -1,6 +1,14 @@
 const spicedPg = require('spiced-pg');
-const { dbUser, dbPass } = require('./secrets');
-const db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
+
+let db;
+// if(true) then website shoult talk to herokus postgres database
+if (process.env.DATABASE_URL) {
+    db = spicedPg(process.env.DATABASE_URL);
+} else {
+    //else if we are on 8080
+    dbspicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/petition`);
+    const { dbUser, dbPass } = require('./secrets');
+}
 
 //ADD new user to DB
 module.exports.registerUser = (first, last, email, hashedPass) => {

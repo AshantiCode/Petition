@@ -241,4 +241,4 @@ app.get('/logout', (req, res) => {
 });
 
 // Server
-app.listen(8080, () => ca.rainbow('Yo, I am listening on 8080!'));
+app.listen(process.env.PORT || 8080, () => ca.rainbow('Yo, I am listening on 8080!'));
