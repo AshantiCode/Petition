@@ -30,11 +30,10 @@ img {
   margin: 0 auto;
 }
 
-.wrapper-signers{
+.wrapper-signers {
   /* text-align: center; */
   width: 500px;
   margin: 0 auto;
-}
 }
 
 p {
@@ -52,7 +51,7 @@ p {
 }
 
 .form-wrapper {
-  text-align: right;
+  text-align: left;
   margin: 1.1rem;
   font-size: 1, 25rem;
 }
@@ -88,4 +87,13 @@ h1.signers-borderbottom {
 h3.signers-logout {
   margin-top: 5rem;
   border-top: 2px solid #eee;
+}
+.edit-button {
+  float: right;
+  width: 100px;
+  height: 50px;
+  margin-right: 20px;
+  background-color: #630f25;
+  color: #eee;
+  border-radius: 5px;
 }

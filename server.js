@@ -109,7 +109,7 @@ app.get('/profile', (req, res) => {
 });
 
 app.post('/profile', (req, res) => {
-    console.log('req.Body of Profile: ', req.body);
+    // console.log('req.Body of Profile: ', req.body);
     let url = req.body.url;
     if (
         !url.startsWith('http://') &&
@@ -125,6 +125,79 @@ app.post('/profile', (req, res) => {
         }
     );
 });
+
+// ############################ TODO: ###############################
+app.get('/edit', (req, res) => {
+    db.getProfileInfo(req.session.userId).then(data => {
+        res.render('edit', {
+            layout: 'main',
+            first: data.rows[0].first,
+            last: data.rows[0].last,
+            email: data.rows[0].email,
+            age: data.rows[0].age || null,
+            city: data.rows[0].city || null,
+            url: data.rows[0].url || null
+        });
+    });
+});
+
+app.post('/edit', (req, res) => {
+    if (req.body.password) {
+        bcrypt.hash(req.body.password).then(hashedPassword => {
+            Promise.all([
+                db.updateUsersWithPassword(
+                    req.body.first,
+                    req.body.last,
+                    req.body.email,
+                    hashedPassword,
+                    req.session.userId
+                ),
+                db.updateUserProfiles(
+                    req.body.age,
+                    req.body.city,
+                    req.body.url,
+                    req.session.userId
+                )
+            ])
+                .then(() => {
+                    (req.session.first = req.body.first),
+                    (req.session.last = req.body.last);
+                    res.redirect('/edit-confirmation');
+                })
+                .catch(err => {
+                    console.log('Error in Edit Page: ', err);
+                });
+        });
+    } else {
+        Promise.all([
+            db.updateUsersWithoutPassword(
+                req.body.first,
+                req.body.last,
+                req.body.email,
+                req.session.userId
+            ),
+            db.updateUserProfiles(
+                req.body.age,
+                req.body.city,
+                req.body.url,
+                req.session.userId
+            )
+        ]).then(() => {
+            req.session.first = req.body.first;
+            req.session.last = req.body.last;
+            res.redirect('/edit-confirmation');
+        });
+    }
+});
+
+app.get('/edit-confirmation', (req, res) => {
+    console.log('Get request to edit confirmtation');
+    res.render('edit-confirmation', {
+        layout: 'main'
+    });
+});
+
+// ############################# TODO: ####################################
 
 app.get('/login', (req, res) => {
     res.render('login', {
@@ -211,17 +284,31 @@ app.get('/thankyou', (req, res) => {
     // console.log('res.session.id:', req.session.id);
     if (req.session.sigId) {
         db.getSignature(req.session.sigId).then(data => {
-            console.log('Data: ', data);
+            // console.log('Data: ', data);
             res.render('thankyou', {
                 pageTitle: 'Thank You!',
                 layout: 'main',
                 signatureImg: data.rows[0].sig,
-                firstName: req.session.first
+                firstName: req.session.first,
+                numOfSigners: data.rows.length
             });
         });
     } else {
         res.redirect('/petition');
     }
+});
+
+app.post('/thankyou', (req, res) => {
+    db.deleteSignature(req.session.userId)
+        .then(() => {
+            req.session.sigId = null;
+        })
+        .then(() => {
+            res.redirect('/petition');
+        })
+        .catch(err => {
+            console.log('Error in deleteSignature:', err);
+        });
 });
 
 app.get('/signers', (req, res) => {

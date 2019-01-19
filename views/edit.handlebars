@@ -1,0 +1,33 @@
+<div class="wrapper">
+    <h1>Edit your Profile</h1>
+    <div class="form-wrapper">
+
+        <form method='post' action='/edit'>
+
+            <label for="firstName"> First Name </label><br>
+            <input type="text" name='first' id='firstName' value=" {{first}} ">
+            <br>
+            <label for="lastName">Last Name</label><br>
+            <input type="text" name='last' id='lastName' value='{{last}}'>
+            <br>
+            <label for="email">Email </label><br>
+            <input type="email" name='email' id='email' value='{{ email }}'>
+            <br>
+            <label for="password">Password</label><br>
+            <input type="password" name='password' id='pass'><br>
+            <label for="age">Age </label><br>
+            <input type="text" name='age' id='age' value=' {{ age}}'>
+            <br>
+            <label for="city">City </label><br>
+            <input type="text" name='city' id='city' value='{{ city }}'>
+            <br>
+            <label for="url">Homepage </label><br>
+            <input type="text" name='url' id='url' value='{{ url }}'>
+            <br>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <br>
+            <button id='register-btn'>Save!</button>
+
+        </form>
+    </div>
+</div>

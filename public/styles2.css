@@ -1,0 +1,49 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+body {
+  background-color: rgb(54, 49, 49);
+  color: rgb(77, 75, 75);
+  height: 100vh;
+}
+
+main {
+  max-width: 80%;
+  margin: auto;
+  box-shadow: 30px 0px 40px rgba(0, 0, 0, 0.2), -30px 0 40px rgba(0, 0, 0, 0.2);
+  height: 100vh;
+  text-align: center;
+}
+.img-container {
+  display: inline-block;
+  height: 400px;
+}
+
+.test {
+  display: inline-block;
+  margin: 0 auto;
+  width: 50%;
+}
+
+form {
+  display: flex;
+}
+
+input {
+  width: 400px;
+  height: 30px;
+}
+canvas {
+  display: block;
+}
+.snow {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 54%;
+}

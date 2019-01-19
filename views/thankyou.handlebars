@@ -5,11 +5,23 @@
 <div class="wrapper">
     <h1>Your Signature</h1>
 
-    <img src={{ signatureImg }} alt="signature">
 
     <h2>Thank you {{ firstName }} !! </h2>
 
+    <img src={{ signatureImg }} alt="signature">
+
+    <a herf='/signers'>
+        <p>See all {{numOfSigners}} signers!</p>
+    </a>
+
+    <a href='/edit'>
+        <p>Edit your profile.</p>
+    </a>
+
+    <form method='post' action='/thankyou'>
+        <button class="delete-sig-btn">Delete your signature</button>
+    </form>
 
 
-    <p>Now go to the <a href="/signers">Singers Page</a> to see other Signers!</p>
+
 </div>
