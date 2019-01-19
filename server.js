@@ -182,11 +182,15 @@ app.post('/edit', (req, res) => {
                 req.body.url,
                 req.session.userId
             )
-        ]).then(() => {
-            req.session.first = req.body.first;
-            req.session.last = req.body.last;
-            res.redirect('/edit-confirmation');
-        });
+        ])
+            .then(() => {
+                req.session.first = req.body.first;
+                req.session.last = req.body.last;
+                res.redirect('/edit-confirmation');
+            })
+            .catch(err => {
+                console.log('Error in else PArt edit page: ', err);
+            });
     }
 });
 
@@ -283,23 +287,27 @@ app.get('/thankyou', (req, res) => {
     console.log('req.sessionin Thank Your:', req.session);
     // console.log('res.session.id:', req.session.id);
     if (req.session.sigId) {
-        db.getSignature(req.session.sigId).then(data => {
-            // console.log('Data: ', data);
-            res.render('thankyou', {
-                pageTitle: 'Thank You!',
-                layout: 'main',
-                signatureImg: data.rows[0].sig,
-                firstName: req.session.first,
-                numOfSigners: data.rows.length
+        Promise.all([db.getSignature(req.session.sigId), db.getSigners()])
+            .then(data => {
+                console.log('data von getsig und getSigners: ', data);
+                res.render('thankyou', {
+                    pageTitle: 'Thank You!',
+                    layout: 'main',
+                    signatureImg: data[0].rows[0].sig,
+                    firstName: req.session.first,
+                    numOfSigners: data[1].rows.length
+                });
+            })
+            .catch(err => {
+                console.log('Error in app.get ThankYou: ', err);
             });
-        });
     } else {
         res.redirect('/petition');
     }
 });
 
 app.post('/thankyou', (req, res) => {
-    db.deleteSignature(req.session.userId)
+    db.deleteSignature(req.session.sigId)
         .then(() => {
             req.session.sigId = null;
         })
@@ -314,7 +322,7 @@ app.post('/thankyou', (req, res) => {
 app.get('/signers', (req, res) => {
     db.getSigners()
         .then(data => {
-            console.log('signers data rows: ', data.rows);
+            // console.log('signers data rows: ', data.rows);
             res.render('signers', {
                 numOfSigners: data.rows.length - 1,
                 signers: data.rows,

@@ -10,7 +10,7 @@
 
     <img src={{ signatureImg }} alt="signature">
 
-    <a herf='/signers'>
+    <a href='/signers'>
         <p>See all {{numOfSigners}} signers!</p>
     </a>
 
@@ -20,6 +20,7 @@
 
     <form method='post' action='/thankyou'>
         <button class="delete-sig-btn">Delete your signature</button>
+        <input type="hidden" name="_csrf" value="{{csrfToken}}">
     </form>
 
 

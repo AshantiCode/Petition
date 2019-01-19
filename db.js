@@ -31,8 +31,8 @@ module.exports.addSignature = (sig, user_id) => {
     );
 };
 
-module.exports.deleteSignature = userId => {
-    return db.query('DELETE FROM signatures WHERE user_id = $1', [user_id]);
+module.exports.deleteSignature = sigId => {
+    return db.query(`DELETE FROM signatures WHERE id = $1`, [sigId]);
 };
 
 // Update Users-Table
@@ -78,7 +78,7 @@ module.exports.updateUserProfiles = (age, city, url, user_id) => {
     ON CONFLICT (user_id)
     DO UPDATE SET age = $1,city = $2, url = $3
      `,
-        [age, city, url, user_id]
+        [age ? Number(age) : null || null, city || null, url || null, user_id]
     );
 };
 
