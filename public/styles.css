@@ -58,16 +58,22 @@ bold {
   margin-left: 1.7rem;
 }
 span {
-  color: rgb(46, 43, 43);
+  /* color: rgb(46, 43, 43); */
+  color: #c98bb8;
 }
 .error {
+  position: relative;
+  left: 189px;
+  bottom: 34px;
   color: red;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  z-index: 100;
 }
 
 label {
   display: inline-block;
-  margin-top: 5px;
+  margin-top: 12px;
+  text-align: left;
 }
 input {
   padding-left: 1rem;
@@ -91,6 +97,23 @@ canvas {
   /* border: 1px solid black; */
   position: relative;
 }
+.btn {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-size: 1.7rem;
+  color: rgb(250, 246, 246);
+  width: 150px;
+  height: 40px;
+  border-radius: 5px;
+  background-image: linear-gradient(
+    to bottom,
+    #1d976c 0%,
+    #77c995 51%,
+    #1d976c 100%
+  );
+  border: none;
+  cursor: pointer;
+}
 
 /* #######################      REGISTRATION       ############################ */
 .register-img-container {
@@ -101,7 +124,7 @@ canvas {
 .registration-form {
   display: flex;
   flex-direction: column;
-  /* padding-right: 1rem; */
+  position: fixed;
 }
 .snow {
   position: absolute;
@@ -135,36 +158,30 @@ h2.petition-subheading {
   font-size: 2.3rem;
 }
 .flex-container-registr {
-  margin-top: 10px;
+  /* margin-top: -27px; */
   display: flex;
 }
 .registration-flex-item1 {
   max-width: 60%;
 }
+.registration-flex-item2 {
+  position: fixed;
+}
 .reg-btn-container {
-  text-align: center;
+  float: right;
+  text-align: right;
+  display: inline-block;
 }
 .register-btn {
-  display: inline-block;
-  margin-top: 1.25rem;
-  font-size: 1.7rem;
-  color: rgb(250, 246, 246);
-  width: 150px;
-  height: 40px;
-  border-radius: 5px;
-  background-image: linear-gradient(
-    to bottom,
-    #1d976c 0%,
-    #77c995 51%,
-    #1d976c 100%
-  );
-  border: none;
-  cursor: pointer;
+  margin-top: 5px;
 }
 
 .offer-login {
   margin-top: 10px;
 }
+/* .login-btn {
+  position: relative;
+} */
 
 /* ######################       LOGIN    ########################################## */
 
@@ -227,4 +244,135 @@ h2.petition-subheading {
     #989b99 51%,
     #707472 100%
   );
+}
+
+/* ############################   PETITION    ############# */
+#canvas {
+  background-color: #88819a;
+}
+.submit-btn {
+  position: relative;
+  left: 150px;
+  bottom: 30px;
+}
+.petition-text {
+  margin-top: 20px;
+  font-size: 1.5rem;
+}
+/* #######################    THANKYOU        ############ */
+.thankyou-wrapper {
+  margin-top: 100px;
+}
+.signature-holder {
+  background-color: #88819a;
+}
+.offer-text {
+  font-size: 2.5rem;
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+.thankyou-link {
+  /* text-decoration: none; */
+  font-size: 1.8rem;
+  line-height: 1.25;
+}
+.delete-sig-btn {
+  border: none;
+  background: none;
+  font-size: 1.6rem;
+  color: #56198b;
+  border-bottom: 2px solid #56198b;
+}
+.petition-text-wrapper {
+  text-align: left;
+  line-height: 1.25;
+}
+/* ################     SIGNERS   ######################### */
+
+.signers-main {
+  text-align: left;
+  padding: 2rem;
+}
+.wrapper-signers {
+  font-size: 1.2rem;
+}
+.signers-text {
+  margin-top: 30px;
+}
+.logout-btn {
+  /* display: inline-block; */
+  position: relative;
+  left: 598px;
+  padding: 0.5rem 0;
+  padding-left: 15px;
+}
+.edit-btn {
+  position: relative;
+  right: 43px;
+  padding: 0.5rem 0;
+  padding-left: 15px;
+}
+.signers-ul {
+  display: flex;
+  flex-direction: column;
+  height: 200px;
+  flex-wrap: wrap;
+}
+.signers-li {
+  display: inline-block;
+  line-height: 1.25;
+  font-size: 1.15rem;
+}
+
+​.signers-link {
+  text-decoration: none;
+  text-decoration: underline;
+  border-bottom: #c59fb6;
+  color: white;
+}
+.ul-wrapper {
+  margin-top: 30px;
+  width: 90%;
+  padding: 0 2.2rem;
+}
+
+/* ##########################     EDIT PROFILE ############## */
+.edit-wrapper {
+  margin-top: 80px;
+  text-align: left;
+}
+.edit-form {
+  margin-top: 30px;
+}
+.save-edit-btn {
+  position: relative;
+  left: 296px;
+  bottom: 15px;
+}
+
+/* #############       EDIT CONFIRMATION ####################### */
+.edit-conf-text {
+  margin-top: 250px;
+}
+
+.edit-logout-btn {
+  margin-right: 20px;
+  padding-top: 0.2rem;
+}
+
+/* ############     LOGOUT   ######## */
+.logout-text {
+  margin-top: 150px;
+}
+
+/* ########  FOOTER ##############
+ */
+.footer {
+  position: relative;
+  top: -22px;
+  right: 21px;
+  color: #e0b9d4;
+  text-align: right;
+  font-size: 0.85rem;
+  opacity: 0.7;
 }

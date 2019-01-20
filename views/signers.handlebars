@@ -2,40 +2,42 @@
     <title> {{ pageTitle }} </title>
 </head>
 
-{{>edit-button}}
+<main class='signers-main'>
+    <a href='/edit'>
+        <div class="btn edit-btn">Edit Profile</div>
+    </a>
 
-<div class="wrapper-signers">
+    <a href="/logout" class='signers-link'>
+        <div class="btn logout-btn">Log Out</div>
+    </a>
 
-    <h3 class="signers-logout"><a href="/logout">Log
-            Out</a> out from this page!</h3>
+    <div class="wrapper-signers">
+        <h1 class="signers-text"> You and {{ numOfSigners }} other People want to stay in the Sun.See who else
+            is
+            against Rain and want to have
+            Sun
+            only!</h1>
+    </div>
+
+    <div class="ul-wrapper">
+        <ul class="signers-ul">
+            {{#signers}}
+            <li class='signers-li'>
+                {{#if url}}
+                <a href="{{ url }}" class='signers-link'>{{ first }} {{last}}</a>
+                {{else}}
+                {{ first }} {{ last }}
+                {{/if}}
+                {{#if age}}
+                , {{age}} years
+                {{/if}}
+                {{#city}}
+                <a href="signers/{{.}}" class='signers-link'>{{.}} </a>
+                {{/city}}
+            </li>
+            {{/signers}}
+        </ul>
+    </div>
 
 
-    <h1 class="signers-borderbottom"> You and {{ numOfSigners }} other People want to stay in the Sun.See who else is
-        against Rain and want to have
-        Sun
-        only!</h1>
-
-
-
-
-    <ul class="signers-ul">
-
-        {{#signers}}
-        <li>
-            {{#if url}}
-            <a href="{{ url }}">{{ first }} {{last}}</a>
-            {{else}}
-            {{ first }} {{ last }} ,
-            {{/if}}
-            {{age}} years,
-            {{#city}}
-            <a href="signers/{{.}}">{{.}} </a>
-            {{/city}}
-        </li>
-        {{/signers}}
-    </ul>
-
-
-
-
-</div>
+</main>

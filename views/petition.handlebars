@@ -2,39 +2,35 @@
     <title> {{ pageTitle }} </title>
 </head>
 
+<main>
+    <div class="wrapper">
+        <div class="petition-text-wrapper">
+            <h1>Sign Now against Snow</h1>
+            <h2>and make all those sad, wet stinky dogs happy that they never have to walk through snow anymore
+                </h1>
 
-<div class="wrapper">
-    <h1>Welcome</h1>
-
-    <h1 class=''>This is a Petition About Whatever </h1>
-
-
-
-    <p class='description'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit laborum, ab omnis assumenda
-        ipsum excepturi
-        voluptates
-        voluptatibus.</p>
+                <p class='petition-text'> Please confirm the petition with your signature!</p>
+                <br><br>
+        </div>
 
 
-    <p class='description'> Please confirm the petition with your signature!</p>
-    <br><br>
+        {{#if error}}
+        <p class="error"> 🤨 Ooops ! Something went wrong 🤨
+        </p>
+        {{/if}}
 
-    {{#if error}}
-    <p class="error"> 🤨 Ooops ! Something went wrong 🤨
-    </p>
-    {{/if}}
+        <form method='post' action='/petition'>
 
-    <form method='post' action='/petition'>
+            <label for="sig">Your Signature here</label><br>
+            <input type="hidden" name='sig' id='sig-field' value=''>
 
-        <label for="sig">Your Signature here</label><br>
-        <input type="hidden" name='sig' id='sig-field' value=''>
-
-        <canvas id='canvas' width='500px' height='150px'></canvas>
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-        <br><br>
-        <button id='submit-btn'>Submit Petition</button>
-        <br><br>
+            <canvas id='canvas' width='500px' height='150px'></canvas>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+            <br><br>
+            <button class="btn submit-btn">Submit</button>
+            <br><br>
 
 
-    </form>
-</div>
+        </form>
+    </div>
+</main>

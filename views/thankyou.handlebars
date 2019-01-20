@@ -1,28 +1,29 @@
 <head>
     <title> {{ pageTitle }} </title>
 </head>
-
-<div class="wrapper">
-    <h1>Your Signature</h1>
-
-
-    <h2>Thank you {{ firstName }} !! </h2>
-
-    <img src={{ signatureImg }} alt="signature">
-
-    <a href='/signers'>
-        <p>See all {{numOfSigners}} signers!</p>
-    </a>
-
-    <a href='/edit'>
-        <p>Edit your profile.</p>
-    </a>
-
-    <form method='post' action='/thankyou'>
-        <button class="delete-sig-btn">Delete your signature</button>
-        <input type="hidden" name="_csrf" value="{{csrfToken}}">
-    </form>
+<main>
+    <div class="wrapper thankyou-wrapper">
+        <h1>Your Signature</h1>
 
 
+        <h2>Thank you {{ firstName }} for your signature!! </h2>
 
-</div>
+        <img class='signature-holder' src={{ signatureImg }} alt="signature">
+        <p class='offer-text'>What you want to do next?</p>
+        <a href='/signers' class='thankyou-link'>
+            <p>See all {{numOfSigners}} other signers</p>
+        </a>
+
+        <a href='/edit' class='thankyou-link'>
+            <p class='thankyou-link'>Edit your profile</p>
+        </a>
+
+        <form method='post' action='/thankyou'>
+            <button class="delete-sig-btn">Delete your signature</button>
+            <input type="hidden" name="_csrf" value="{{csrfToken}}">
+        </form>
+
+
+
+    </div>
+</main>

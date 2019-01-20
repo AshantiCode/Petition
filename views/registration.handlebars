@@ -1,10 +1,16 @@
 {{!-- <div class="snow" count="7000"></div> --}}
+
+
 <main>
     <div class="register-img-container">
         <h1 class="petition-heading">STOP the SNOW</h1>
         <h2 class="petition-subheading">Sign Now</h2>
         <img src="/img/winter-pug.jpg" id="dogOne" alt="A sad wet dog">
     </div>
+    {{#if error}}
+    <p class="error"> 🤨 Ooops ! Something went wrong 🤨!
+    </p>
+    {{/if}}
 
     <div class="flex-container-registr">
 
@@ -18,41 +24,33 @@
         </div>
 
 
-        {{#if error}}
-        <p class="error"> 🤨 Ooops ! Something went wrong 🤨!
-        </p>
-        {{/if}}
+        {{!-- hier --}}
 
         <div class="registration-flex-itm2">
 
             <form class='registration-form' method='post' action='/registration'>
-                <div>
-                    <label for="firstName">First Name<span>*</span></label><br>
-                    <input type="text" name='first' id='firstName'>
-                </div>
 
-                <div>
-                    <label for="lastName">Last Name<span>*</span></label><br>
-                    <input type="text" name='last' id='lastName'>
-                </div>
+                <label for="firstName">First Name<span>*</span></label>
+                <input type="text" name='first' id='firstName'>
 
-                <div>
-                    <label for="email">Email<span>*</span> </label><br>
-                    <input type="email" name='email' id='email'>
-                </div>
+                <label for="lastName">Last Name<span>*</span></label>
+                <input type="text" name='last' id='lastName'>
 
-                <div>
-                    <label for="password">Password<span>*</span></label><br>
-                    <input type="password" name='password' id='pass'>
-                </div>
+                <label for="email">Email<span>*</span> </label>
+                <input type="email" name='email' id='email'>
+
+                <label for="password">Password<span>*</span></label>
+                <input type="password" name='password' id='pass'>
 
                 <input type="hidden" name="_csrf" value="{{csrfToken}}">
+
                 <div class="reg-btn-container">
-                    <button class='register-btn'>Register</button>
+                    <button class='btn register-btn'>Register</button>
                 </div>
+                <p class="offer-login">Already member? Please <a href="/login">Log In </a></p>
             </form>
 
-            <p class="offer-login">Already member? Please<a href="/login">Log In </a></p>
+
 
         </div>
 
