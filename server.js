@@ -54,7 +54,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/registration', (req, res) => {
-    res.render('registration', {
+    res.render('registration2', {
         pageTitle: 'Registration',
         layout: 'main'
     });
