@@ -1,42 +1,63 @@
-<div class="spicedlogo">
-
-    <img src="img/spicedlogo.png" alt="">
-</div>
-<div class="registration-wrapper">
-    <h1>Registration</h1>
-    <h3>Become part of the sundance</h3>
-    <br><br>
-
-    {{#if error}}
-    <p class="error"> 🤨 Ooops ! Something went wrong 🤨!
-    </p>
-    {{/if}}
-
-
-
-    <div class="form-wrapper">
-
-        <form method='post' action='/registration'>
-
-            <label for="firstName">First Name</label><br>
-            <input type="text" name='first' id='firstName'>
-            <br><br>
-            <label for="lastName">Last Name</label><br>
-            <input type="text" name='last' id='lastName'>
-            <br><br>
-            <label for="email">Email </label><br>
-            <input type="email" name='email' id='email'>
-            <br><br>
-            <label for="password">Password</label><br>
-            <input type="password" name='password' id='pass'>
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            <br><br>
-            <button id='register-btn'>Register!</button>
-
-        </form>
-        <br><br><br>
-        <p>Already a member? Please <a href="/login">Log In </a></p>
-
+{{!-- <div class="snow" count="7000"></div> --}}
+<main>
+    <div class="register-img-container">
+        <h1 class="petition-heading">STOP the SNOW</h1>
+        <h2 class="petition-subheading">Sign Now</h2>
+        <img src="/img/winter-pug.jpg" id="dogOne" alt="A sad wet dog">
     </div>
 
-</div>
+    <div class="flex-container-registr">
+
+        <div class="registration-flex-item1">
+
+            <p class="petition-description">Sign the <bold>PETITION</bold> against Snow when people have to walk their
+                dogs. <br>
+                It is very hard to walk a dog covered in a blanket and look how sad this dog is!
+                Register and sign the Petition now!
+            </p>
+        </div>
+
+
+        {{#if error}}
+        <p class="error"> 🤨 Ooops ! Something went wrong 🤨!
+        </p>
+        {{/if}}
+
+        <div class="registration-flex-itm2">
+
+            <form class='registration-form' method='post' action='/registration'>
+                <div>
+                    <label for="firstName">First Name<span>*</span></label><br>
+                    <input type="text" name='first' id='firstName'>
+                </div>
+
+                <div>
+                    <label for="lastName">Last Name<span>*</span></label><br>
+                    <input type="text" name='last' id='lastName'>
+                </div>
+
+                <div>
+                    <label for="email">Email<span>*</span> </label><br>
+                    <input type="email" name='email' id='email'>
+                </div>
+
+                <div>
+                    <label for="password">Password<span>*</span></label><br>
+                    <input type="password" name='password' id='pass'>
+                </div>
+
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <div class="reg-btn-container">
+                    <button class='register-btn'>Register</button>
+                </div>
+            </form>
+
+            <p class="offer-login">Already member? Please<a href="/login">Log In </a></p>
+
+        </div>
+
+
+    </div>
+    {{!--
+    <script src="/snow.js"></script> --}}
+</main>

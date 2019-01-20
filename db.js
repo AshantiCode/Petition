@@ -125,10 +125,11 @@ module.exports.getSignature = function(id) {
     );
 };
 
-// INSERT profile data to DB
-module.exports.addProfile = (age, city, url, userId) => {
-    return db.query(
-        `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4)`,
-        [age, city, url, userId]
-    );
-};
+// INSERT profile data to DB replaced by UpdateUserProfiles ######################
+// module.exports.addProfile = (age, city, url, userId) => {
+//     return db.query(
+//         `INSERT INTO user_profiles (age, city, url, user_id) VALUES ($1, $2, $3, $4)`,
+//         // [age, city, url, userId]
+//         [age ? Number(age) : null || null, city || null, url || null, userId]
+//     );
+// };

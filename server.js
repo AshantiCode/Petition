@@ -39,14 +39,13 @@ app.use(function(req, res, next) {
         next();
     }
 });
-app.use(csurf());
 
+app.use(csurf());
 app.use(function(req, res, next) {
     res.locals.csrfToken = req.csrfToken();
     res.setHeader('X-Frame-Options', 'DENY');
     next();
 });
-
 // Routes Handler ###########################################################
 
 app.get('/', (req, res) => {
@@ -54,7 +53,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/registration', (req, res) => {
-    res.render('registration2', {
+    res.render('registration', {
         pageTitle: 'Registration',
         layout: 'main'
     });
@@ -109,7 +108,8 @@ app.get('/profile', (req, res) => {
 });
 
 app.post('/profile', (req, res) => {
-    // console.log('req.Body of Profile: ', req.body);
+    console.log('req.Body of Profile: ', req.body);
+
     let url = req.body.url;
     if (
         !url.startsWith('http://') &&
@@ -118,15 +118,17 @@ app.post('/profile', (req, res) => {
     ) {
         url = 'http://' + url;
     }
-    db.addProfile(req.body.age, req.body.city, url, req.session.userId).then(
-        data => {
-            console.log('data aus addProfile:', data);
-            res.redirect('/petition');
-        }
-    );
+    db.updateUserProfiles(
+        req.body.age,
+        req.body.city,
+        url,
+        req.session.userId
+    ).then(data => {
+        console.log('data aus addProfile:', data);
+        res.redirect('/petition');
+    });
 });
 
-// ############################ TODO: ###############################
 app.get('/edit', (req, res) => {
     db.getProfileInfo(req.session.userId).then(data => {
         res.render('edit', {
@@ -201,8 +203,6 @@ app.get('/edit-confirmation', (req, res) => {
     });
 });
 
-// ############################# TODO: ####################################
-
 app.get('/login', (req, res) => {
     res.render('login', {
         layout: 'main'
@@ -236,7 +236,7 @@ app.post('/login', (req, res) => {
                         }); //closes alreadySigned
                     } else {
                         req.session = null;
-                        res.render('/login', {
+                        res.render('login', {
                             layout: 'main',
                             error: true
                         });

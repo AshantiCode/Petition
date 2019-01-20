@@ -96,6 +96,7 @@ class Shader {
         );
 
         const canvas = document.createElement('canvas');
+
         const gl = canvas.getContext('webgl', { antialias: options.antialias });
 
         if (!gl) return false;

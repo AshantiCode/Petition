@@ -1,29 +1,41 @@
-<div class="wrapper">
-    <h1>Log In</h1>
+{{!-- <div class="snow" count="7000"></div> --}}
+
+<main>
+    <div class="login-img-container">
+        <img src="/img/dog1.jpg" id="wetdog" alt="sad wet dog">
+    </div>
+    <div class="wrapper">
+        <h1>Welcome Back</h1>
 
 
 
-    <div class="login-form">
-
-        <p>Please log in.</p>
-
-        {{#if error}}
-        <p class="error"> Ooops 🙀! Password or Username is not correct! 🦄
-        </p>
-        {{/if}}
-
-
-        <form method='post' action='/login'>
+        <div class="login-form-wrapper">
 
 
 
-            <label for="email">Your best Email Adress </label>
-            <input type="email" name='email' id='email'>
-            <br><br>
-            <label for="password">Password (4 characters min.)</label>
-            <input type="password" name='password' id='pass' minlength="4" required>
-            <input type="hidden" name="_csrf" value="{{csrfToken}}">
-            <br><br>
-            <button id='login-btn'>Log In!</button>
+            {{#if error}}
+            <p class="error"> Ooops 🙀! Password or Username is not correct! 🦄
+            </p>
+            {{/if}}
 
-        </form>
+
+            <form id='login-form' method='post' action='/login'>
+
+
+
+                <label for="email">Your Email Adress </label><br>
+                <input type="email" name='email' id='email'>
+                <br><br>
+                <label for="password">Password</label><br>
+                <input type="password" name='password' id='pass'>
+                <input type="hidden" name="_csrf" value="{{csrfToken}}">
+                <br><br>
+                <button class='register-btn'>Log In</button>
+
+            </form>
+
+
+
+            {{!--
+            <script src="/snow.js"></script> --}}
+</main>
