@@ -58,7 +58,6 @@ bold {
   margin-left: 1.7rem;
 }
 span {
-  /* color: rgb(46, 43, 43); */
   color: #c98bb8;
 }
 .error {
@@ -317,19 +316,19 @@ h2.petition-subheading {
   flex-direction: column;
   height: 200px;
   flex-wrap: wrap;
+  /* color: white; */
 }
-.signers-li {
-  display: inline-block;
+.signers-item > a {
+  color: white;
+  text-decoration-color: rgb(221, 125, 208);
+}
+
+.signers-item {
+  /* display: inline-block; */
   line-height: 1.25;
   font-size: 1.15rem;
 }
 
-​.signers-link {
-  text-decoration: none;
-  text-decoration: underline;
-  border-bottom: #c59fb6;
-  color: white;
-}
 .ul-wrapper {
   margin-top: 30px;
   width: 90%;
@@ -338,7 +337,7 @@ h2.petition-subheading {
 
 /* ##########################     EDIT PROFILE ############## */
 .edit-wrapper {
-  margin-top: 80px;
+  margin-top: 40px;
   text-align: left;
 }
 .edit-form {
@@ -363,6 +362,10 @@ h2.petition-subheading {
 /* ############     LOGOUT   ######## */
 .logout-text {
   margin-top: 150px;
+  font-size: 1.4rem;
+}
+.logout-dog {
+  width: 65%;
 }
 
 /* ########  FOOTER ##############

@@ -7,7 +7,7 @@
         <div class="btn edit-btn">Edit Profile</div>
     </a>
 
-    <a href="/logout" class='signers-link'>
+    <a href="/logout">
         <div class="btn logout-btn">Log Out</div>
     </a>
 
@@ -22,9 +22,9 @@
     <div class="ul-wrapper">
         <ul class="signers-ul">
             {{#signers}}
-            <li class='signers-li'>
+            <li class="signers-item">
                 {{#if url}}
-                <a href="{{ url }}" class='signers-link'>{{ first }} {{last}}</a>
+                <a href="{{ url }}" class="signers-link">{{ first }} {{last}}</a>
                 {{else}}
                 {{ first }} {{ last }}
                 {{/if}}
@@ -32,7 +32,7 @@
                 , {{age}} years
                 {{/if}}
                 {{#city}}
-                <a href="signers/{{.}}" class='signers-link'>{{.}} </a>
+                <a href="signers/{{.}}" class="signers-link">{{.}} </a>
                 {{/city}}
             </li>
             {{/signers}}
