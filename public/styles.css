@@ -195,6 +195,9 @@ h2.petition-subheading {
 .login-form-wrapper {
   margin-top: 40px;
 }
+.login-error {
+  position: static;
+}
 
 #login-form > input {
   width: 70%;

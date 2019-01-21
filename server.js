@@ -211,42 +211,48 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     console.log('req.body: ', req.body);
-    // let userId = '';
-    // let first = '';
-    // let last = '';
 
-    db.getUserByEmail(req.body.email).then(data => {
-        req.session.userId = data.rows[0].id;
-        req.session.first = data.rows[0].first;
-        req.session.last = data.rows[0].last;
-        return bcrypt
-            .comparePassword(req.body.password, data.rows[0].password)
-            .then(
-                bool => {
-                    if (bool) {
-                        db.alreadySigned(req.session.userId).then(data => {
-                            console.log('Data from alreadySigned: ', data);
-                            if (data.rows.length >= 1) {
-                                req.session.sigId = data.rows[0].id;
+    db.getUserByEmail(req.body.email)
+        .then(data => {
+            req.session.userId = data.rows[0].id;
+            req.session.first = data.rows[0].first;
+            req.session.last = data.rows[0].last;
+            return bcrypt
+                .comparePassword(req.body.password, data.rows[0].password)
+                .then(
+                    bool => {
+                        if (bool) {
+                            db.alreadySigned(req.session.userId).then(data => {
+                                console.log('Data from alreadySigned: ', data);
+                                if (data.rows.length >= 1) {
+                                    req.session.sigId = data.rows[0].id;
 
-                                res.redirect('/thankyou');
-                            } else {
-                                res.redirect('/petition');
-                            }
-                        }); //closes alreadySigned
-                    } else {
-                        req.session = null;
-                        res.render('login', {
-                            layout: 'main',
-                            error: true
-                        });
-                    }
-                } // closes bool
-            )
-            .catch(err => {
-                console.log('Error in GetUserbyEmail:', err);
+                                    res.redirect('/thankyou');
+                                } else {
+                                    res.redirect('/petition');
+                                }
+                            }); //closes alreadySigned
+                        } else {
+                            req.session = null;
+                            res.render('login', {
+                                layout: 'main',
+                                error: true
+                            });
+                        }
+                    } // closes bool
+                )
+                .catch(err => {
+                    console.log('Error in GetUserbyEmail:', err);
+                });
+        })
+        .catch(err => {
+            req.session = null;
+            console.log(err);
+            res.render('login', {
+                layout: 'main',
+                error: true
             });
-    }); //closes getUserByEMail
+        }); //closes getUserByEMail
 });
 
 app.get('/petition', (req, res) => {
