@@ -93,9 +93,9 @@ canvas {
   width: 50%;
   margin: 0 auto;
   margin-top: 30px;
-  /* border: 1px solid black; */
   position: relative;
 }
+
 .btn {
   display: inline-block;
   margin-top: 1.25rem;
@@ -104,12 +104,7 @@ canvas {
   width: 150px;
   height: 40px;
   border-radius: 5px;
-  background-image: linear-gradient(
-    to bottom,
-    #1d976c 0%,
-    #77c995 51%,
-    #1d976c 100%
-  );
+  background-image: linear-gradient(to bottom, #1d976c 0%, #77c995 51%, #1d976c 100%);
   border: none;
   cursor: pointer;
 }
@@ -125,12 +120,12 @@ canvas {
   flex-direction: column;
   position: fixed;
 }
+
 .snow {
   position: absolute;
   left: 0;
   top: 0;
   right: 0;
-  /* bottom: 50%; */
   bottom: 0;
 }
 
@@ -142,6 +137,7 @@ canvas {
   font-size: 1.8rem;
   text-align: left;
 }
+
 h1.petition-heading {
   position: absolute;
   font-size: 3rem;
@@ -150,27 +146,32 @@ h1.petition-heading {
   padding: 0rem 2rem;
   border-bottom: 1px solid rgb(250, 245, 245);
 }
+
 h2.petition-subheading {
   position: absolute;
   top: 26%;
   left: 22%;
   font-size: 2.3rem;
 }
+
 .flex-container-registr {
-  /* margin-top: -27px; */
   display: flex;
 }
+
 .registration-flex-item1 {
   max-width: 60%;
 }
+
 .registration-flex-item2 {
   position: fixed;
 }
+
 .reg-btn-container {
   float: right;
   text-align: right;
   display: inline-block;
 }
+
 .register-btn {
   margin-top: 5px;
 }
@@ -178,23 +179,21 @@ h2.petition-subheading {
 .offer-login {
   margin-top: 10px;
 }
-/* .login-btn {
-  position: relative;
-} */
 
 /* ######################       LOGIN    ########################################## */
 
 .login-img-container {
   margin: 0 auto;
   margin-top: 40px;
-  /* border: 2px solid black; */
   width: 400px;
   height: 200px;
   position: relative;
 }
+
 .login-form-wrapper {
   margin-top: 40px;
 }
+
 .login-error {
   position: static;
 }
@@ -202,6 +201,7 @@ h2.petition-subheading {
 #login-form > input {
   width: 70%;
 }
+
 #wetdog {
   position: absolute;
   bottom: -163px;
@@ -214,6 +214,7 @@ h2.petition-subheading {
 .profile-wrapper {
   margin-top: 70px;
 }
+
 .greeting {
   margin-bottom: 20px;
   border-bottom: 1px solid white;
@@ -225,6 +226,7 @@ h2.petition-subheading {
   font-size: 1.2rem;
   margin-bottom: 20px;
 }
+
 .profile-btn {
   position: relative;
   left: 50px;
@@ -240,44 +242,48 @@ h2.petition-subheading {
   background: grey;
   width: 100px;
   height: 40px;
-  background-image: linear-gradient(
-    to bottom,
-    #707472 0%,
-    #989b99 51%,
-    #707472 100%
-  );
+  background-image: linear-gradient(to bottom, #707472 0%, #989b99 51%, #707472 100%);
 }
 
 /* ############################   PETITION    ############# */
+
 #canvas {
   background-color: #88819a;
 }
+
 .submit-btn {
   position: relative;
   left: 150px;
   bottom: 30px;
 }
+
 .petition-text {
   margin-top: 20px;
   font-size: 1.5rem;
 }
+
 /* #######################    THANKYOU        ############ */
+
 .thankyou-wrapper {
   margin-top: 100px;
 }
+
 .signature-holder {
   background-color: #88819a;
 }
+
 .offer-text {
   font-size: 2.5rem;
   margin-top: 50px;
   margin-bottom: 30px;
 }
+
 .thankyou-link {
   /* text-decoration: none; */
   font-size: 1.8rem;
   line-height: 1.25;
 }
+
 .delete-sig-btn {
   border: none;
   background: none;
@@ -285,22 +291,27 @@ h2.petition-subheading {
   color: #56198b;
   border-bottom: 2px solid #56198b;
 }
+
 .petition-text-wrapper {
   text-align: left;
   line-height: 1.25;
 }
+
 /* ################     SIGNERS   ######################### */
 
 .signers-main {
   text-align: left;
   padding: 2rem;
 }
+
 .wrapper-signers {
   font-size: 1.2rem;
 }
+
 .signers-text {
   margin-top: 30px;
 }
+
 .logout-btn {
   /* display: inline-block; */
   position: relative;
@@ -308,19 +319,21 @@ h2.petition-subheading {
   padding: 0.5rem 0;
   padding-left: 15px;
 }
+
 .edit-btn {
   position: relative;
   right: 43px;
   padding: 0.5rem 0;
   padding-left: 15px;
 }
+
 .signers-ul {
   display: flex;
   flex-direction: column;
   height: 200px;
   flex-wrap: wrap;
-  /* color: white; */
 }
+
 .signers-item > a {
   color: white;
   text-decoration-color: rgb(221, 125, 208);
@@ -339,13 +352,16 @@ h2.petition-subheading {
 }
 
 /* ##########################     EDIT PROFILE ############## */
+
 .edit-wrapper {
   margin-top: 40px;
   text-align: left;
 }
+
 .edit-form {
   margin-top: 30px;
 }
+
 .save-edit-btn {
   position: relative;
   left: 296px;
@@ -353,6 +369,7 @@ h2.petition-subheading {
 }
 
 /* #############       EDIT CONFIRMATION ####################### */
+
 .edit-conf-text {
   margin-top: 250px;
 }
@@ -363,16 +380,18 @@ h2.petition-subheading {
 }
 
 /* ############     LOGOUT   ######## */
+
 .logout-text {
   margin-top: 150px;
   font-size: 1.4rem;
 }
+
 .logout-dog {
   width: 65%;
 }
 
-/* ########  FOOTER ##############
- */
+/* ########  FOOTER ##############*/
+
 .footer {
   position: relative;
   top: -22px;

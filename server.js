@@ -29,11 +29,7 @@ app.use(express.static('./public'));
 
 // user that are logged out try to type other url then registration or login are redirected to registration
 app.use(function(req, res, next) {
-    if (
-        !req.session.userId &&
-        req.url != '/registration' &&
-        req.url != '/login'
-    ) {
+    if (!req.session.userId && req.url != '/registration' && req.url != '/login') {
         res.redirect('/registration');
     } else {
         next();
@@ -60,12 +56,7 @@ app.get('/registration', (req, res) => {
 });
 
 app.post('/registration', (req, res) => {
-    if (
-        !req.body.first ||
-        !req.body.last ||
-        !req.body.email ||
-        !req.body.password
-    ) {
+    if (!req.body.first || !req.body.last || !req.body.email || !req.body.password) {
         res.render('registration', {
             layout: 'main',
             error: true
@@ -74,12 +65,7 @@ app.post('/registration', (req, res) => {
         bcrypt
             .hash(req.body.password)
             .then(hashedPass => {
-                return db.registerUser(
-                    req.body.first,
-                    req.body.last,
-                    req.body.email,
-                    hashedPass
-                );
+                return db.registerUser(req.body.first, req.body.last, req.body.email, hashedPass);
             })
             .then(data => {
                 console.log('User added to database users');
@@ -108,23 +94,11 @@ app.get('/profile', (req, res) => {
 });
 
 app.post('/profile', (req, res) => {
-    console.log('req.Body of Profile: ', req.body);
-
     let url = req.body.url;
-    if (
-        !url.startsWith('http://') &&
-        !url.startsWith('https://') &&
-        !url.startsWith('//')
-    ) {
+    if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('//')) {
         url = 'http://' + url;
     }
-    db.updateUserProfiles(
-        req.body.age,
-        req.body.city,
-        url,
-        req.session.userId
-    ).then(data => {
-        console.log('data aus addProfile:', data);
+    db.updateUserProfiles(req.body.age, req.body.city, url, req.session.userId).then(data => {
         res.redirect('/petition');
     });
 });
@@ -154,16 +128,10 @@ app.post('/edit', (req, res) => {
                     hashedPassword,
                     req.session.userId
                 ),
-                db.updateUserProfiles(
-                    req.body.age,
-                    req.body.city,
-                    req.body.url,
-                    req.session.userId
-                )
+                db.updateUserProfiles(req.body.age, req.body.city, req.body.url, req.session.userId)
             ])
                 .then(() => {
-                    (req.session.first = req.body.first),
-                    (req.session.last = req.body.last);
+                    (req.session.first = req.body.first), (req.session.last = req.body.last);
                     res.redirect('/edit-confirmation');
                 })
                 .catch(err => {
@@ -172,18 +140,8 @@ app.post('/edit', (req, res) => {
         });
     } else {
         Promise.all([
-            db.updateUsersWithoutPassword(
-                req.body.first,
-                req.body.last,
-                req.body.email,
-                req.session.userId
-            ),
-            db.updateUserProfiles(
-                req.body.age,
-                req.body.city,
-                req.body.url,
-                req.session.userId
-            )
+            db.updateUsersWithoutPassword(req.body.first, req.body.last, req.body.email, req.session.userId),
+            db.updateUserProfiles(req.body.age, req.body.city, req.body.url, req.session.userId)
         ])
             .then(() => {
                 req.session.first = req.body.first;
@@ -197,7 +155,6 @@ app.post('/edit', (req, res) => {
 });
 
 app.get('/edit-confirmation', (req, res) => {
-    console.log('Get request to edit confirmtation');
     res.render('edit-confirmation', {
         layout: 'main'
     });
@@ -210,8 +167,6 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    console.log('req.body: ', req.body);
-
     db.getUserByEmail(req.body.email)
         .then(data => {
             req.session.userId = data.rows[0].id;
@@ -223,7 +178,6 @@ app.post('/login', (req, res) => {
                     bool => {
                         if (bool) {
                             db.alreadySigned(req.session.userId).then(data => {
-                                console.log('Data from alreadySigned: ', data);
                                 if (data.rows.length >= 1) {
                                     req.session.sigId = data.rows[0].id;
 
@@ -256,7 +210,6 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/petition', (req, res) => {
-    log('req.session in petition Get:', req.session);
     if (req.session.sigId) {
         res.redirect('/thankyou');
     } else {
@@ -268,12 +221,10 @@ app.get('/petition', (req, res) => {
 });
 
 app.post('/petition', (req, res) => {
-    log('req.session in Petition POST:', req.session);
-    const firstName = req.session.first;
-    const lastName = req.session.last;
     const signature = req.body.sig;
     const userId = req.session.userId;
-    db.addSignature(req.body.sig, req.session.userId)
+
+    db.addSignature(signature, userId)
         .then(data => {
             console.log('added signature to DB signature');
             req.session.sigId = data.rows[0].id;
@@ -290,12 +241,9 @@ app.post('/petition', (req, res) => {
 });
 
 app.get('/thankyou', (req, res) => {
-    console.log('req.sessionin Thank Your:', req.session);
-    // console.log('res.session.id:', req.session.id);
     if (req.session.sigId) {
         Promise.all([db.getSignature(req.session.sigId), db.getSigners()])
             .then(data => {
-                console.log('data von getsig und getSigners: ', data);
                 res.render('thankyou', {
                     pageTitle: 'Thank You!',
                     layout: 'main',
@@ -328,7 +276,6 @@ app.post('/thankyou', (req, res) => {
 app.get('/signers', (req, res) => {
     db.getSigners()
         .then(data => {
-            // console.log('signers data rows: ', data.rows);
             res.render('signers', {
                 numOfSigners: data.rows.length - 1,
                 signers: data.rows,
@@ -360,6 +307,4 @@ app.get('/logout', (req, res) => {
 });
 
 // Server
-app.listen(process.env.PORT || 8080, () =>
-    ca.rainbow('Yo, I am listening on 8080!')
-);
+app.listen(process.env.PORT || 8080, () => ca.rainbow('Yo, I am listening on 8080!'));
