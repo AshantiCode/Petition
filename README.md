@@ -7,6 +7,12 @@ Supporters can register, log in, create / edit a basic profile, add / edit  thei
 
 <h2> Tech Stack </h2>
 <ul>
- <li>JavaScript, CSS3,CanvasJS, Handlebars.js, PostgreSQL, Express.js &amp Node.js </li>
+ <li>JavaScript </li>
+ <li>CSS3</li>
+ <li>Handlebars.js</li>
+ <li>CanvasJS</li>
+ <li>PostgreSQL</li>
+ <li>Express.js</li>
+ <li>Node.js</li>
 </ul>
 
